@@ -50,3 +50,9 @@ class Clean:
         with open(file_path, "r") as f:
             data_list = f.readlines()
         return data_list
+
+    # TODO
+    def load_data(self):
+        pass
+
+
