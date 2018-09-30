@@ -4,7 +4,7 @@ import pickle
 
 
 class Clean:
-    def __init__(self, origin_file, pickle_file, pickle_type):
+    def __init__(self, origin_file=None, pickle_file=None, pickle_type=None):
         self.origin_file = origin_file
         self.pickle_file = pickle_file
         self.pickle_type = pickle_type
@@ -44,15 +44,31 @@ class Clean:
     def extract_pickle_data(self):
         with open(self.pickle_file, "rb") as f:
             data = pickle.load(f)
-        return data
+        return data    # format: {"user id": ["web page id", ...... ]}
 
     def read_origin_file(self, file_path):
         with open(file_path, "r") as f:
             data_list = f.readlines()
         return data_list
 
-    # TODO
-    def load_data(self):
-        pass
+    def load_data(self, data):    # data: {"user_id": ["web page id", ...... ]}
+        frequency_dict = {}
+        web_page_records = data.values()
+        for each_record in web_page_records:
+            for each_page in each_record:
+                if each_page not in frequency_dict:
+                    frequency_dict[each_page] = 1
+                else:
+                    frequency_dict[each_page] += 1
+        return frequency_dict
+        # return format: {'attribute no.': times} e.g.: {'1000': 912, '1001': 4451, '1002': 749 ......}
 
-
+    # def load_data(self, data):
+    #     frequency_dict = {}
+    #     web_page_records = data.values()
+    #     for each_record in web_page_records:
+    #         if frozenset(each_record) not in frequency_dict:
+    #             frequency_dict[frozenset(each_record)] = 1
+    #         else:
+    #             frequency_dict[frozenset(each_record)] += 1
+    #     return frequency_dict
