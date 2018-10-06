@@ -1,0 +1,16 @@
+Tear Production Rate,Sex,Age,Spectacle Prescription,Astigmatism,Recommendation
+Reduced,M,Young,Myope,Yes,Lifestyle
+Reduced,F,Old,Myope,No,Street
+Normal,M,Old,Hypermetrope,Yes,Lifestyle
+Normal,M,Young,Hypermetrope,No,Polarized
+Reduced,F,Middle,Myope,No,Street
+Normal,F,Middle,Hypermetrope,Yes,Lifestyle
+Normal,M,Young,Hypermetrope,No,Polarized
+Reduced,M,Young,Hypermetrope,Yes,Lifestyle
+Normal,M,Old,Myope,No,Street
+Normal,M,Middle,Myope,Yes,Polarized
+Reduced,F,Middle,Myope,No,Street
+Reduced,F,Old,Hypermetrope,Yes,Polarized
+Normal,M,Young,Myope,No,Lifestyle
+Reduced,F,Old,Hypermetrope,Yes,Polarized
+Normal,F,Old,Hypermetrope,Yes,Lifestyle
