@@ -28,6 +28,7 @@ print("normalization avg_trans: {0}".format(normal_avg_trans))
 print("normalization avg_payment: {0}".format(normal_avg_payment))
 print("normalization avg_silver: {0}".format(normal_avg_silver))
 print("******************************************************************"*2+"\n")
+
 # ############# 正规化待测数据各个属性 ###############
 sample = {"sex": 0, "avg_trans": 9, "avg_payment": 410, "avg_silver": 5}
 sample_normal_avg_trans = (sample["avg_trans"] - min_avg_trans)/(max_avg_trans - min_avg_trans)
@@ -56,11 +57,12 @@ for i in range(len(distance_in_avg_trans)):
 print("every euclidean distance: {0}".format(overall_distance))
 print("******************************************************************"*2+"\n")
 
-# ############# 找到最大的k个数据 ###############
+# ############# 找到最小的k个数据 ###############
 k = 5
-max_k_ls = heapq.nlargest(k, overall_distance)
-index_largest_distance = [overall_distance.index(each_distance) for each_distance in max_k_ls]
-print("largest K distances: {0}".format(index_largest_distance))
-print("largest K items:")
-for index in index_largest_distance:
-    print(decision_dic[decision_ls[index]])
+min_k_ls = heapq.nsmallest(k, overall_distance)
+index_smallest_distance = [overall_distance.index(each_distance) for each_distance in min_k_ls]
+print("smallest K distances: {0}".format(min_k_ls))
+print("smallest K index (first 0): {0}".format(index_smallest_distance))
+print("smallest K items:")
+for index in index_smallest_distance:
+    print("\t" + decision_dic[decision_ls[index]])
