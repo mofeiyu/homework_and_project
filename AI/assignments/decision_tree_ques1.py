@@ -1,8 +1,6 @@
 # -*- encoding:utf-8 -*-
 
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
 from sklearn import tree
 
 df_train = pd.read_csv("training_data_set.csv")
@@ -19,5 +17,6 @@ dtree = tree.DecisionTreeClassifier(criterion="gini")
 dtree.fit(train_X, train_Y)
 
 Y_pred = dtree.predict(test_X)
-print(Y_pred)
-print("Accuracy: \n", dtree.score(test_X, test_Y))
+print("testing Y data: {0}".format(test_Y))
+print("prediction Y data: {0}".format(Y_pred))
+print("accuracy rate: {0}%".format(dtree.score(test_X, test_Y)*100))
