@@ -76,4 +76,4 @@ for (k, v) in dic_clean_data.items():
                 temp_ls.append(new_data)
     df_data[k] = temp_ls
 
-df_data.to_csv("normalization_data_static.csv")    # normalization data
+df_data.to_csv("nor_data1.csv")    # normalization data

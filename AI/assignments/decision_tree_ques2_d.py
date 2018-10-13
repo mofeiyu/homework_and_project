@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import tree
 from sklearn import metrics
 
-file_name = "normalization_data.csv"    # "cardiac_delet.csv"
+file_name = "nor_data2.csv"
 df_train = pd.read_csv(file_name)
 df_train.columns = ["bhr", "basebp", "basedp", "pkhr", "sbp", "dp", "dose", "maxhr", "%mphr(b)", "mbp", "dpmaxdo",
                     "dobdose", "age", "gender", "baseEF", "dobEF", "chestpain", "equivecg", "restwma",
@@ -20,12 +20,13 @@ Y = df_train.values[:, -1]
 accuracy_ls = []
 test_y_ls = []
 pre_y_ls = []
-test_times = 10
 
-for i in range(100000):
+times = 100000
+for i in range(times):
     trainX, testX, trainY, testY = train_test_split(X, Y, test_size=0.3)
+    print("finish {0}%\r".format(int(i / times * 100)), end='')
     test_y_ls.append(testY)
-    dtree = tree.DecisionTreeClassifier(criterion="gini")
+    dtree = tree.DecisionTreeClassifier(criterion="entropy")
     dtree.fit(trainX, trainY)
     Y_pred = dtree.predict(testX)
     pre_y_ls.append(Y_pred)

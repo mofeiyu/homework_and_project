@@ -13,7 +13,7 @@ df_test.columns = ["Tear Production Rate", "Sex", "Age", "Spectacle Prescription
 test_X = df_test.values[:, 0:5]
 test_Y = df_test.values[:, 5]
 
-dtree = tree.DecisionTreeClassifier(criterion="gini")
+dtree = tree.DecisionTreeClassifier(criterion="entropy")
 dtree.fit(train_X, train_Y)
 
 Y_pred = dtree.predict(test_X)
