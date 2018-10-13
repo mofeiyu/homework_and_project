@@ -68,13 +68,13 @@ print("smallest K distances: {0}".format(min_k_ls))
 distance_sum = sum(min_k_ls)
 distance_weights = [1/(each_distance/distance_sum) for each_distance in min_k_ls]
 distance_weights = [each_weight/sum(distance_weights) for each_weight in distance_weights]
-print("distance weights {0}: ".format(distance_weights))
+print("distance weights: {0}".format(distance_weights))
 
 avg_tans_ls = [avg_trans[index] for index in index_smallest_distance]
 
 # print(avg_tans_ls)
 new_distance = sum(map(lambda avg_trans, weights: avg_trans*weights, avg_tans_ls, distance_weights))
-print(new_distance)
+print("expect the average no. of transactions: {0}".format(new_distance))
 
 
 
