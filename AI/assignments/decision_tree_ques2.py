@@ -18,7 +18,6 @@ Y = df_train.values[:, -1]
 accuracy_ls = []
 test_y_ls = []
 pre_y_ls = []
-test_times = 10
 
 times = 100000
 for i in range(times):

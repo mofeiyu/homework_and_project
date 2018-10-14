@@ -48,7 +48,7 @@ for (k, v) in dic_clean_data.items():
                 new_data = each_data//10 * 10 + 5
             elif 7 < each_data % 10 <= 9:
                 new_data = each_data//10 * 10 + 10
-            elif 1 <= each_data % 10 <= 3:
+            elif 1 <= each_data % 10 < 3:
                 new_data = each_data // 10 * 10
             else:
                 new_data = each_data
