@@ -1,7 +1,6 @@
 # -*- encoding:utf-8 -*-
 
 import pandas as pd
-import numpy as np
 
 df_data = pd.read_csv("nor_data1.csv")
 df_data.columns = ["bhr", "basebp", "basedp", "pkhr", "sbp", "dp", "dose", "maxhr", "%mphr(b)", "mbp", "dpmaxdo",
