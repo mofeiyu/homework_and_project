@@ -4,6 +4,20 @@
 
 import util
 
+test_dict={
+    '1': ['A','C','E','B','F'],
+    '2': ['A','C','G'],
+    '3': ['E'],
+    '4': ['A', 'C', 'E', 'G','D'],
+    '5': ['A', 'C', 'E', 'G'],
+    '6': ['E'],
+    '7': ['A', 'C', 'E', 'B', 'F'],
+    '8': ['A', 'C', 'D'],
+    '9': ['A', 'C', 'E', 'G'],
+    '10': ['A', 'C', 'E', 'G']
+}
+
+
 class FpTreeNode:
     def __init__(self, attribute_no=None, parent=None, children=[], attribute_times=0):
         self.attribute_no = attribute_no
@@ -34,14 +48,46 @@ class FpTree:
             self.new_data[user_id] = tmp_page_ls
 
     def create_fp_tree(self):
-        for (user_id, page_ls) in self.new_data.items():
+        count1 = 0
+        count2 = 0
+        count3 = 0
+        count4 = 0
+        count5 = 0
+        # for (user_id, page_ls) in self.new_data.items():
+        for (user_id, page_ls) in test_dict.items():
+            judge = False
             current_node = self.head_null_node    # 首先current_node赋头结点
             for each_page in page_ls:    # 遍历每一项用户点击页面的列表
                 if not self.head_null_node.children:    # 如果是第一次，头结点的子节点尚为空值，则从头开始搞
-                    self.head_null_node.children.append(FpTreeNode(each_page, self.head_null_node.children, None, attribute_times=1))
-                    current_node = self.head_null_node.children[0]
-                    self.item_head_table[self.sort_list.index(each_page)].append(current_node)
+                    self.head_null_node.children.append(FpTreeNode(each_page, self.head_null_node.children, [], attribute_times=1))
+                    current_node = self.head_null_node.children[-1]
+                    # self.item_head_table[self.sort_list.index(each_page)].append(current_node)
+                    count1 += 1
                 else:    # 已经不是第一次了
+                    print(current_node)
+                    print(self.head_null_node)
+                    print('................................')
+                    if current_node is self.head_null_node:
+                        print(current_node)
+                        print(self.head_null_node)
+                        print('********************************')
+                        for child in current_node.children:
+                            if child.attribute_no == each_page:
+                                # 下一个待建树的值是子节点中其中一个
+                                child.attribute_times += 1
+                                current_node = child
+                                judge = True
+                                continue
+                        if judge is True:
+                            count2 += 1
+                            continue
+                        else:    # 当前节点之前没有过，此步只在建第一条树枝时使用
+                            current_node.children.append(FpTreeNode(each_page, current_node, [], attribute_times=1))
+                            current_node = current_node.children[-1]
+                            print(each_page)
+                            count3 += 1
+                            continue
+
                     if each_page == current_node.attribute_no:    # 当前节点之前已经有过了
                         current_node.attribute_times += 1
                         if current_node.children:    # 如果子节点非空，则寻找是否应该使用下面那个子节点
@@ -50,14 +96,24 @@ class FpTree:
                                     if child.attribute_no == page_ls[page_ls.index(each_page)+1]:
                                         # 下一个待建树的值是子节点中其中一个
                                         current_node = child
+                                        count4 += 1
                                         continue
                             # 下一个待建树的值在现有子节点中没有，则需要新建一个子节点
-                            current_node.children.append(FpTreeNode(each_page, current_node, None, attribute_times=1))
+                            current_node.children.append(FpTreeNode(each_page, current_node, [], attribute_times=1))
                             current_node = current_node.children[-1]
-
-                    else:    # 当前节点之前没有过，此步应该只在建第一条树枝时使用
-                        current_node.children.append(FpTreeNode(each_page, current_node, None, attribute_times=1))
+                            count5 += 1
+                    else:
+                        current_node.children.append(FpTreeNode(each_page, current_node, [], attribute_times=1))
                         current_node = current_node.children[-1]
+        print(count1, count2, count3, count4, count5)
+
+    def search_node(self, current_node, each_page):
+        if current_node.attribute_no == each_page:
+            return current_node
+        else:
+            for each_child in current_node.children:
+                self.search_node(each_child, each_page)
+
 
 
     def mine_fp_tree(self):
