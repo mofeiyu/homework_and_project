@@ -1,4 +1,6 @@
 # -*- encoding:utf-8 -*-
+# Name: SUN RUI    ID: 18083229g
+
 import numpy as np
 import heapq
 from decimal import Decimal
