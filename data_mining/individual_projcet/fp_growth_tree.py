@@ -4,7 +4,7 @@
 
 import util
 
-test_dict={
+test_dict = {
     '1': ['A','C','E','B','F'],
     '2': ['A','C','G'],
     '3': ['E'],
@@ -48,8 +48,8 @@ class FpTree:
             self.new_data[user_id] = tmp_page_ls
 
     def create_fp_tree(self):
-        # for (user_id, page_ls) in self.new_data.items():
-        for (user_id, page_ls) in test_dict.items():
+        for (user_id, page_ls) in self.new_data.items():
+        # for (user_id, page_ls) in test_dict.items():
             judge = False
             current_node = self.head_null_node    # 首先current_node赋头结点
             if not self.head_null_node.children:  # 如果是第一次，头结点的子节点尚为空值，则从头开始搞
@@ -85,10 +85,10 @@ class FpTree:
                                     current_node = child
                                     judge2 = True
                                     break
-                        if judge2 is False:
-                            # 下一个待建树的值在现有子节点中没有，则需要新建一个子节点
-                            current_node.children.append(FpTreeNode(each_page, current_node, [], attribute_times=1))
-                            current_node = current_node.children[-1]
+                        # if judge2 is False:
+                        #     # 下一个待建树的值在现有子节点中没有，则需要新建一个子节点
+                        #     current_node.children.append(FpTreeNode(each_page, current_node, [], attribute_times=1))
+                        #     current_node = current_node.children[-1]
                 else:
                     current_node.children.append(FpTreeNode(each_page, current_node, [], attribute_times=1))
                     current_node = current_node.children[-1]
