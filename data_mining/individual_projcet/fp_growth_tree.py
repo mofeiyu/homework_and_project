@@ -56,7 +56,7 @@ class FpTree:
             current_node = self.head_null_node    # 首先current_node赋头结点
             if not self.head_null_node.children:  # 如果是第一次，头结点的子节点尚为空值，则从头开始搞
                 self.head_null_node.children.append(
-                    FpTreeNode(page_ls[0], self.head_null_node.children, [], attribute_times=0))
+                    FpTreeNode(page_ls[0], current_node, [], attribute_times=0))
                 current_node = self.head_null_node.children[-1]
                 self.item_head_table[self.sort_list.index(page_ls[0])][2].append(current_node)
             else:  # 已经不是第一次了
@@ -108,11 +108,14 @@ class FpTree:
         while True:
             result_ls.append(temp_node)
             temp_node = temp_node.parent
-            try:
-                if temp_node.attribute_no == -1:
-                    break
-            except:
-                print(type(temp_node))
+            # try:
+            if temp_node.attribute_no == -1:
+                break
+            # except:
+            #     print(temp_node)
+            #     # print(temp_node[0].attribute_no)
+            #     # print(temp_node[-1].attribute_no)
+            #     pass
         return result_ls[::-1]
 
     def search_longest_ls(self, freq_ls):   # [[a,b,c,d],[a,c,d],[...],...]
@@ -161,7 +164,12 @@ class FpTree:
         for each_item in self.item_head_table[::-1]:
             dict_freq = {}
             for last_node in each_item[2]:
+                # try:
                 each_freq_ls = self.travel_up_tree(last_node)
+                # except:
+                #     print(last_node)
+                #     break
+                    # print(self.item_head_table.index(each_item))
                 if each_freq_ls[0].attribute_no not in dict_freq:
                     dict_freq[each_freq_ls[0].attribute_no] = [each_freq_ls]
                 else:
