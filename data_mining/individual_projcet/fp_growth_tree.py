@@ -151,12 +151,16 @@ class FpTree:
         for index in range(len(freq_lists)):    # [{A:100},{b:50},{c:10},{D:1}]
             if index == max_ls_length_index:
                 continue
-            for each_node in freq_lists[index]:    # {A:100}
+            for each_node in freq_lists[index]:    # each_node {A:100}
                 node_index = self.find_node_index(each_node, basic_freq_ls)
                 if not node_index:
                     continue
                 for (no, times) in basic_freq_ls[node_index].items():
+                    # print(basic_freq_ls[node_index])
                     basic_freq_ls[node_index][no] += each_node[no]
+                    # print(each_node[no])
+                    # print(basic_freq_ls[node_index])
+                    # print("----------------------------------------------------------")
         return basic_freq_ls
 
     def mine_fp_tree(self):
@@ -178,7 +182,8 @@ class FpTree:
                 new_freq_lists = self.change_freq_by_last(freq_lists)
                 # print(new_freq_lists)
                 max_freq_item = self.combine_freq_lists(new_freq_lists)
-            all_frequency_ls.append(max_freq_item)
+                # print(max_freq_item)
+                all_frequency_ls.append(max_freq_item)
         return all_frequency_ls
 
 
@@ -187,8 +192,23 @@ def main():
     ob.create_item_head_table()
     ob.create_fp_tree()
     final_result = ob.mine_fp_tree()
+    # tmp_ls = []
+    # tmp_ls2 = []
     for each in final_result:
-        print(each)
+        if '1037' in each[-1].keys():
+            print(each)
+    #     tmp_ls.append(each[-1])
+    #     tmp_ls2.append(each[0])
+    # #
+    # import copy
+    # temp_ls = copy.deepcopy(tmp_ls)
+    # for each in tmp_ls:
+    #     temp_ls.remove(each)
+    #     for i in temp_ls:
+    #         if each.keys() == i.keys():
+    #             print(each.keys(), i.keys())
+    #             print(each, tmp_ls2[tmp_ls.index(each)], tmp_ls2[temp_ls.index(i)])
+
 
 if __name__ == '__main__':
     main()
