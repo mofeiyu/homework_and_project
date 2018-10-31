@@ -32,8 +32,7 @@ import fp_growth_tree as fp
 #         print(o_length, n_length)
 #         print(info[k])
 
-count = 0
-count2 = 0
+
 ob = fp.FpTree()
 ob.create_item_head_table()
 # for each in ob.item_head_table:
@@ -46,7 +45,19 @@ ob.create_fp_tree()
 # for each in ob.head_null_node.children:
 #     if each.attribute_no == '1034':
 #         print("val:{0}  times:{1}".format(each.attribute_no, each.attribute_times))
-print(len(ob.head_null_node.children))
+# print(len(ob.head_null_node.children))
+print(ob.item_head_table[200][0])
+print(ob.item_head_table[200][1])
+print(len(ob.item_head_table[200][2]))
+print("________________________________________")
+count = 0
+count2 = 0
+for each in ob.item_head_table[200][2]:
+    # print(each.attribute_no,each.attribute_times)
+    count2 += each.attribute_times
+    count += 1
+print(count, count2)
+
 # print(ob.head_null_node.children[0].children)
 # for each in ob.head_null_node.children:
 #     print(each.attribute_no)
