@@ -46,13 +46,13 @@ ob.create_fp_tree()
 #     if each.attribute_no == '1034':
 #         print("val:{0}  times:{1}".format(each.attribute_no, each.attribute_times))
 # print(len(ob.head_null_node.children))
-print(ob.item_head_table[200][0])
-print(ob.item_head_table[200][1])
-print(len(ob.item_head_table[200][2]))
+print(ob.item_head_table[50][0])
+print(ob.item_head_table[50][1])
+print(len(ob.item_head_table[50][2]))
 print("________________________________________")
 count = 0
 count2 = 0
-for each in ob.item_head_table[200][2]:
+for each in ob.item_head_table[50][2]:
     # print(each.attribute_no,each.attribute_times)
     count2 += each.attribute_times
     count += 1

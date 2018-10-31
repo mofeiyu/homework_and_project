@@ -102,4 +102,85 @@ class FpTree:
             for each_child in current_node.children:
                 self.search_node(each_child, each_page)
 
+    def travel_up_tree(self, last_node):
+        result_ls = []
+        temp_node = last_node
+        while True:
+            result_ls.append(temp_node)
+            temp_node = temp_node.parent
+            try:
+                if temp_node.attribute_no == -1:
+                    break
+            except:
+                print(type(temp_node))
+        return result_ls[::-1]
+
+    def search_longest_ls(self, freq_ls):   # [[a,b,c,d],[a,c,d],[...],...]
+        max_length = 0
+        max_index = 0
+        for index in range(len(freq_ls)):
+            tmp_length = len(freq_ls[index])
+            if max_length < tmp_length:
+                max_length = tmp_length
+                max_index = index
+        return max_index, max_length    # no use max_length
+
+    def change_freq_by_last(self, freq_ls):    # create new data by dict from fp tree, input:[[A,b,c,D],[A,c,D],[...],...], all same first and last
+        freq_lists = []
+        for each_freq in freq_ls:
+            frequency = each_freq[-1].attribute_times
+            freq_ls = []
+            for each_node in each_freq:
+                freq_ls.append({each_node.attribute_no: frequency})
+            freq_lists.append(freq_ls)
+        return freq_lists
+
+    def find_node_index(self, node, freq_ls): # {A:100}    [{A:100},{b:50},{c:10},{D:1}]
+        for each_node in freq_ls:
+            # print(node.keys(), each_node.keys())
+            if node.keys() == each_node.keys():
+                # print(freq_ls.index(each_node))
+                return freq_ls.index(each_node)
+
+    def combine_freq_lists(self, freq_lists):    # [[{A:100},{b:50},{c:10},{D:1}],[{A:100},{b:50},{D:1}],[...],...]
+        max_ls_length_index, max_length = self.search_longest_ls(freq_lists)
+        basic_freq_ls = freq_lists[max_ls_length_index]    # [{A:100},{b:50},{c:10},{D:1}]
+        for index in range(len(freq_lists)):    # [{A:100},{b:50},{c:10},{D:1}]
+            if index == max_ls_length_index:
+                continue
+            for each_node in freq_lists[index]:    # {A:100}
+                node_index = self.find_node_index(each_node, basic_freq_ls)
+                if not node_index:
+                    continue
+                for (no, times) in basic_freq_ls[node_index].items():
+                    basic_freq_ls[node_index][no] += each_node[no]
+        return basic_freq_ls
+
     def mine_fp_tree(self):
+        all_frequency_ls = []
+        for each_item in self.item_head_table[::-1]:
+            dict_freq = {}
+            for last_node in each_item[2]:
+                each_freq_ls = self.travel_up_tree(last_node)
+                if each_freq_ls[0].attribute_no not in dict_freq:
+                    dict_freq[each_freq_ls[0].attribute_no] = [each_freq_ls]
+                else:
+                    dict_freq[each_freq_ls[0].attribute_no].append(each_freq_ls)
+            for (attr_no, freq_lists) in dict_freq.items():
+                new_freq_lists = self.change_freq_by_last(freq_lists)
+                # print(new_freq_lists)
+                max_freq_item = self.combine_freq_lists(new_freq_lists)
+            all_frequency_ls.append(max_freq_item)
+        return all_frequency_ls
+
+
+def main():
+    ob = FpTree()
+    ob.create_item_head_table()
+    ob.create_fp_tree()
+    final_result = ob.mine_fp_tree()
+    for each in final_result:
+        print(each)
+
+if __name__ == '__main__':
+    main()
