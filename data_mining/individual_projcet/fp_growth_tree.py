@@ -4,19 +4,18 @@
 
 import util
 
-test_dict = {
-    '1': ['A','C','E','B','F'],
-    '2': ['A','C','G'],
-    '3': ['E'],
-    '4': ['A', 'C', 'E', 'G','D'],
-    '5': ['A', 'C', 'E', 'G'],
-    '6': ['E'],
-    '7': ['A', 'C', 'E', 'B', 'F'],
-    '8': ['A', 'C', 'D'],
-    '9': ['A', 'C', 'E', 'G'],
-    '10': ['A', 'C', 'E', 'G']
-}
-
+# test_dict = {
+#     '1': ['A','C','E','B','F'],
+#     '2': ['A','C','G'],
+#     '3': ['E'],
+#     '4': ['A', 'C', 'E', 'G','D'],
+#     '5': ['A', 'C', 'E', 'G'],
+#     '6': ['E'],
+#     '7': ['A', 'C', 'E', 'B', 'F'],
+#     '8': ['A', 'C', 'D'],
+#     '9': ['A', 'C', 'E', 'G'],
+#     '10': ['A', 'C', 'E', 'G']
+# }
 
 class FpTreeNode:
     def __init__(self, attribute_no=None, parent=None, children=[], attribute_times=0):
@@ -116,7 +115,7 @@ class FpTree:
             #     # print(temp_node[0].attribute_no)
             #     # print(temp_node[-1].attribute_no)
             #     pass
-        return result_ls[::-1]
+        return result_ls[::-1]    # [a,b,c,d]
 
     def search_longest_ls(self, freq_ls):   # [[a,b,c,d],[a,c,d],[...],...]
         max_length = 0
@@ -133,12 +132,13 @@ class FpTree:
         for each_freq in freq_ls:
             frequency = each_freq[-1].attribute_times
             freq_ls = []
+            # print(each_freq[0].attribute_no, each_freq[0].attribute_times)
             for each_node in each_freq:
                 freq_ls.append({each_node.attribute_no: frequency})
             freq_lists.append(freq_ls)
         return freq_lists
 
-    def find_node_index(self, node, freq_ls): # {A:100}    [{A:100},{b:50},{c:10},{D:1}]
+    def find_node_index(self, node, freq_ls):    # {A:100}    [{A:100},{b:50},{c:10},{D:1}]
         for each_node in freq_ls:
             # print(node.keys(), each_node.keys())
             if node.keys() == each_node.keys():
@@ -153,7 +153,12 @@ class FpTree:
                 continue
             for each_node in freq_lists[index]:    # each_node {A:100}
                 node_index = self.find_node_index(each_node, basic_freq_ls)
-                if not node_index:
+                # if node_index == 0:
+                #     print(each_node)
+                # if not node_index:
+                #     continue
+                if node_index is None:
+                    basic_freq_ls.append(each_node)
                     continue
                 for (no, times) in basic_freq_ls[node_index].items():
                     # print(basic_freq_ls[node_index])
@@ -162,6 +167,20 @@ class FpTree:
                     # print(basic_freq_ls[node_index])
                     # print("----------------------------------------------------------")
         return basic_freq_ls
+
+    def remove_low_support_item(self, freq_lists_set):    # [ [{A:100},{b:50},{c:10},{D:1}],[{A:100},{b:50},{D:1}],[...], ... ]
+        max_freq_sets = []
+        for freq_ls in freq_lists_set:
+            basic_freq = list(freq_ls[-1].values())[0]
+            remove_items_ls = []
+            for each_item in freq_ls:
+                if list(each_item.values())[0] < basic_freq:
+                    remove_items_ls.append(each_item)
+            for each_remove_item in remove_items_ls:
+                freq_ls.remove(each_remove_item)
+            max_freq_sets.append(freq_ls)
+            del(remove_items_ls)
+        return max_freq_sets
 
     def mine_fp_tree(self):
         all_frequency_ls = []
@@ -177,14 +196,19 @@ class FpTree:
                 if each_freq_ls[0].attribute_no not in dict_freq:
                     dict_freq[each_freq_ls[0].attribute_no] = [each_freq_ls]
                 else:
-                    dict_freq[each_freq_ls[0].attribute_no].append(each_freq_ls)
+                    dict_freq[each_freq_ls[0].attribute_no].append(each_freq_ls)    # {A: [[A,b,c,D],[A,c,D],[...],...], B: [...], ...}
             for (attr_no, freq_lists) in dict_freq.items():
+                # with open("test.txt", 'a') as fp:
+                #     fp.writelines("attr_no:{}\n".format(attr_no))
+                #     for each in freq_lists:
+                #         fp.writelines("\t{}, {}\n".format(each[0].attribute_no, each[-1].attribute_no))
                 new_freq_lists = self.change_freq_by_last(freq_lists)
                 # print(new_freq_lists)
                 max_freq_item = self.combine_freq_lists(new_freq_lists)
                 # print(max_freq_item)
                 all_frequency_ls.append(max_freq_item)
-        return all_frequency_ls
+                max_freq_sets = self.remove_low_support_item(all_frequency_ls)
+        return max_freq_sets
 
 
 def main():
@@ -195,11 +219,11 @@ def main():
     # tmp_ls = []
     # tmp_ls2 = []
     for each in final_result:
-        if '1037' in each[-1].keys():
+        if list(each[-1].values())[0] > 3:
             print(each)
-    #     tmp_ls.append(each[-1])
-    #     tmp_ls2.append(each[0])
-    # #
+        # tmp_ls.append(each[-1])
+        # tmp_ls2.append(each[0])
+    #
     # import copy
     # temp_ls = copy.deepcopy(tmp_ls)
     # for each in tmp_ls:

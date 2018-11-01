@@ -2,7 +2,6 @@
 # Name: SUN RUI    ID: 18083229g
 
 import pickle
-import copy
 
 class Clean:
     def __init__(self, origin_file=None, pickle_file=None, pickle_type=None):
@@ -67,13 +66,3 @@ class Clean:
         #         frequency_dict.pop(attr)
         return frequency_dict
         # return format: {'attribute no.': times} e.g.: {'1000': 912, '1001': 4451, '1002': 749 ......}
-
-    # def load_data(self, data):
-    #     frequency_dict = {}
-    #     web_page_records = data.values()
-    #     for each_record in web_page_records:
-    #         if frozenset(each_record) not in frequency_dict:
-    #             frequency_dict[frozenset(each_record)] = 1
-    #         else:
-    #             frequency_dict[frozenset(each_record)] += 1
-    #     return frequency_dict
