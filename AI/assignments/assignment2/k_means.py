@@ -24,13 +24,14 @@ def do_k_means(data):
     k_means = KMeans(n_clusters=3, init=centers, n_init=1, max_iter=1000)
     return k_means.fit_predict(data), k_means.fit(data).cluster_centers_
 
-def plot_distribution_2D(index, data):
+def plot_distribution_2D(cluster_index, data):
     cluster0 = []
     cluster1 = []
     cluster2 = []
     for i in range(len(cluster_index)):
         if cluster_index[i] == 0:
             cluster0.append(data[i])
+            print(data[i])
         if cluster_index[i] == 1:
             cluster1.append(data[i])
         if cluster_index[i] == 2:
@@ -79,7 +80,7 @@ cluster_index, cluster_center = do_k_means(data)
 plot_distribution_2D(cluster_index, data)
 plot_distribution_3D(cluster_index, data)
 print(cluster_index)
-# print(cluster_center)
+print(data)
 
 
 #

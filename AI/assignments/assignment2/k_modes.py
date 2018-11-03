@@ -20,7 +20,7 @@ def do_k_modes(data):
     k_modes = KModes(n_clusters=3, init=centroids, n_init=1)
     return k_modes.fit_predict(one_hot_data), one_hot_data
 
-def plot_distribution_2D(index, data):
+def plot_distribution_2D(cluster_index, data):
     cluster0 = []
     cluster1 = []
     cluster2 = []
