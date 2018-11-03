@@ -12,13 +12,13 @@ from mpl_toolkits.mplot3d import Axes3D
 def load_data(file_path):
     df_data = pd.read_csv(file_path)
     df_data.columns = ["Age", "Sex", "MonthlyIncome", "MaritalStatus",	"ServicePlan", "ExtraUsage"]
-    return df_data
-
-def do_k_modes(df_data):
     one_hot_data = np.array(pd.get_dummies(df_data))
-    centroids = np.vstack((one_hot_data[0], one_hot_data[7], one_hot_data[14]))
+    return one_hot_data
+
+def do_k_modes(data):
+    centroids = np.vstack((data[0], data[7], data[14]))
     k_modes = KModes(n_clusters=3, init=centroids, n_init=1)
-    return k_modes.fit_predict(one_hot_data), one_hot_data
+    return k_modes.fit_predict(data), data
 
 def plot_distribution_2D(cluster_index, data):
     cluster0 = []
@@ -31,14 +31,13 @@ def plot_distribution_2D(cluster_index, data):
             cluster1.append(data[i])
         if cluster_index[i] == 2:
             cluster2.append(data[i])
-    pca = PCA(2)
     color_ls = ["red", "green", "blue"]
     all_clusters = [cluster0, cluster1, cluster2]
-    for i in range(len(all_clusters)):
-        plot_columns = pca.fit_transform(all_clusters[i])
-        X = plot_columns[:, 0]
-        Y = plot_columns[:, 1]
-        plt.scatter(X, Y, s=200, c=color_ls[i], alpha=.5)
+    for each_cluster, color in zip(all_clusters, color_ls):
+        for each_item in each_cluster:
+            X = each_item[0]
+            Y = each_item[1]
+            plt.scatter(X, Y, s=200, c=color, alpha=.5)
     plt.xlim(-3, 3)
     plt.ylim(-3, 3)
     plt.show()
@@ -54,23 +53,30 @@ def plot_distribution_3D(cluster_index, data):
             cluster1.append(data[i])
         if cluster_index[i] == 2:
             cluster2.append(data[i])
-    pca = PCA(3)
     color_ls = ["red", "green", "blue"]
     all_clusters = [cluster0, cluster1, cluster2]
     fig = plt.figure()
     ax = Axes3D(fig)
-    for i in range(len(all_clusters)):
-        plot_columns = pca.fit_transform(all_clusters[i])
-        X = plot_columns[:, 0]
-        Y = plot_columns[:, 1]
-        Z = plot_columns[:, 2]
-        ax.scatter(X, Y, Z, s=200, c=color_ls[i], alpha=.5)
-
+    for each_cluster, color in zip(all_clusters, color_ls):
+        for each_item in each_cluster:
+            X = each_item[0]
+            Y = each_item[1]
+            Z = each_item[2]
+            ax.scatter(X, Y, Z, s=200, c=color, alpha=.5)
+    ax.set_zlabel('Z')
+    ax.set_ylabel('Y')
+    ax.set_xlabel('X')
     plt.show()
 
+data = load_data("data_depth.csv")
+pca2 = PCA(2)
+reduce_data2 = pca2.fit_transform(data)
+print(reduce_data2)
+cluster_index2, cluster_center2 = do_k_modes(reduce_data2)
+print(cluster_index2)
+plot_distribution_2D(cluster_index2, reduce_data2)
 
-df_data = load_data("data_width.csv")
-cluster_index, one_hot_data = do_k_modes(df_data)
-plot_distribution_2D(cluster_index, one_hot_data)
-plot_distribution_3D(cluster_index, one_hot_data)
-print(cluster_index)
+pca3 = PCA(3)
+reduce_data3 = pca3.fit_transform(data)
+cluster_index3, cluster_center3 = do_k_modes(reduce_data3)
+plot_distribution_3D(cluster_index3, reduce_data3)
