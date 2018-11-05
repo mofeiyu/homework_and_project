@@ -17,7 +17,7 @@ def load_data(file_path):
 
 def do_k_modes(data):
     centroids = np.vstack((data[0], data[7], data[14]))
-    k_modes = KModes(n_clusters=3, init=centroids, n_init=1)
+    k_modes = KModes(n_clusters=3, init=centroids, n_init=1, max_iter=10000)
     return k_modes.fit_predict(data), data
 
 def plot_distribution_2D(cluster_index, data):
