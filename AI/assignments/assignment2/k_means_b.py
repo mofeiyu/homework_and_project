@@ -22,7 +22,7 @@ def do_k_means(data):
     k_means = KMeans(n_clusters=3, init=centers, n_init=1, max_iter=1000)
     return k_means.fit_predict(data), k_means.fit(data).cluster_centers_
 
-def plot_distribution_2D(cluster_index, data):
+def plot_distribution_2D(cluster_index, data, cluster_center2):
     cluster0 = []
     cluster1 = []
     cluster2 = []
@@ -40,11 +40,13 @@ def plot_distribution_2D(cluster_index, data):
             X = each_item[0]
             Y = each_item[1]
             plt.scatter(X, Y, s=200, c=color, alpha=.5)
+    for each_center in cluster_center2:
+        plt.scatter(each_center[0], each_center[1], s=200, c="black", alpha=.5)
     plt.xlim(-3, 3)
     plt.ylim(-3, 3)
     plt.show()
 
-def plot_distribution_3D(cluster_index, data):
+def plot_distribution_3D(cluster_index, data, cluster_center3):
     cluster0 = []
     cluster1 = []
     cluster2 = []
@@ -65,18 +67,31 @@ def plot_distribution_3D(cluster_index, data):
             Y = each_item[1]
             Z = each_item[2]
             ax.scatter(X, Y, Z, s=200, c=color, alpha=.5)
+    for each_center in cluster_center3:
+        plt.scatter(each_center[0], each_center[1], s=200, c="black", alpha=.5)
     ax.set_zlabel('Z')
     ax.set_ylabel('Y')
     ax.set_xlabel('X')
     plt.show()
 
-data = load_data("data.csv")
-pca2 = PCA(2)
-reduce_data2 = pca2.fit_transform(data)
-cluster_index2, cluster_center2 = do_k_means(reduce_data2)
-plot_distribution_2D(cluster_index2, reduce_data2)
+def print_clusters(cluster_index):
+    cluster_dict = {0:[],1:[],2:[]}
+    for i in range(len(cluster_index)):
+        cluster_dict[cluster_index[i]].append(i+1)
+    print("cluster result: {}".format(cluster_dict))
 
-pca3 = PCA(3)
-reduce_data3 = pca3.fit_transform(data)
-cluster_index3, cluster_center3 = do_k_means(reduce_data3)
-plot_distribution_3D(cluster_index3, reduce_data3)
+
+if __name__ == '__main__':
+    data = load_data("data.csv")
+
+    pca2 = PCA(2)
+    reduce_data2 = pca2.fit_transform(data)
+    cluster_index2, cluster_center2 = do_k_means(reduce_data2)
+    print_clusters(cluster_index2)
+    plot_distribution_2D(cluster_index2, reduce_data2, cluster_center2)
+
+    pca3 = PCA(3)
+    reduce_data3 = pca3.fit_transform(data)
+    cluster_index3, cluster_center3 = do_k_means(reduce_data3)
+    print_clusters(cluster_index3)
+    plot_distribution_3D(cluster_index3, reduce_data3, cluster_center3)
