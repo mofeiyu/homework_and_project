@@ -1,0 +1,17 @@
+train:
+LotFrontage 259
+MasVnrType 8
+MasVnrArea 8
+Electrical 1 
+GarageYrBlt 81
+MiscFeature 这项很奇怪
+MiscFeature: Miscellaneous feature not covered in other categories
+		
+       Elev	Elevator 0
+       Gar2	2nd Garage (if not described in garage section) 2
+       Othr	Other 2
+       Shed	Shed (over 100 SF) 48
+       TenC	Tennis Court 1
+       NA	None 1405
+
+删除Electrical NA行，MasVnrArea&MasVnrType&LotFrontage NA共两行

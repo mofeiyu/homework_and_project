@@ -1,0 +1,6 @@
+MSZoning
+LotFrontage
+Utilities 1
+Exterior1st 1
+MasVnrType 15
+Exterior2nd 1
