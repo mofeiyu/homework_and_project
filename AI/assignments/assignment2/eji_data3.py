@@ -152,3 +152,5 @@ zero = [0,0,0,0,0,0,0,0,0,
         0,0,
         0
 ]
+
+all_eb = [AB, AC, AD, BF, CD, DE, DG, EG, FH, FJ, HJ, HK, JK]

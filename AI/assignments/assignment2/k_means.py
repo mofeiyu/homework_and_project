@@ -14,7 +14,6 @@ def load_data(file_path):
     scaled_data = preprocessing.scale(df_data)
     return scaled_data
 
-
 def do_k_means(data):
     centers = np.vstack((data[0], data[7], data[14]))
     k_means = KMeans(n_clusters=3, init=centers, n_init=1, max_iter=1000)
