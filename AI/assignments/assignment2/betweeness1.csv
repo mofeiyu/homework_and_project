@@ -1,0 +1,9 @@
+σAB=1,σAC=1,σAD=1,σAE=1,σAF=1,σAG=1,σAH=1,σAJ=2,σAK=3
+σBC=1,σBD=1,σBE=1,σBF=1,σBG=3,σBH=1,σBJ=1,σBK=2
+σCD=1,σCE=1,σCF=2,σCG=1,σCH=3,σCJ=1,σCK=1
+σDE=1,σDF=1,σDG=1,σDH=2,σDJ=1,σDK=1
+σEF=1,σEG=1,σEH=1,σEJ=2,σEK=3
+σFG=2,σFH=1,σFJ=1,σFK=2
+σGH=1,σGJ=1,σGK=1
+σHJ=1,σHK=1
+σJK=1
