@@ -15,8 +15,9 @@ class SeqArm:
         self.support_value = self.calculate_support_value(support_rate)
 
     def calculate_support_value(self, support_rate):
-        pass
-        # TODO
+        total_num = len(self.data)
+        support = total_num * support_rate
+        return support
 
     def sequence_phase(self, sequence):
         sequence = list(sequence)
@@ -37,6 +38,7 @@ class SeqArm:
                         use_judge = True
                         count_num = self.count_frequency(list(sequence[i]) + [sequence[j][-1]])
                         if count_num != 0 and count_num >= self.support_value:
+                        # if count_num != 0:
                             combine_tuple = tuple(list(sequence[i]) + [sequence[j][-1]])
                             self.sequence_n[combine_tuple] = count_num
                 if use_judge == False:
@@ -78,7 +80,7 @@ class SeqArm:
 
 def main():
     maximal_dict = {}
-    seq_arm_op = SeqArm(0.1)
+    seq_arm_op = SeqArm(0.0001)
     # max_index, max_length = seq_arm_op.find_max_length(list(seq_arm_op.sequence_1.keys()))
     sequence = list(seq_arm_op.sequence_1.keys())[0:10]
     while True:
@@ -86,7 +88,7 @@ def main():
         sequence = seq_arm_op.sequence_n.keys()
         if not sequence:
             break
-    # print(seq_arm_op.sequence_phase_table)
+    print(seq_arm_op.sequence_phase_table)
 
     for each in seq_arm_op.maximal_sequences:
         maximal_dict[len(each)] = each
@@ -94,6 +96,7 @@ def main():
     with open("maximal.pickle", "wb") as f:
         pickle.dump(maximal_dict, f)
 
+    print("***********************************************")
     print(maximal_dict)
 
 
