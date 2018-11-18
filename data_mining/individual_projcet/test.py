@@ -18,12 +18,18 @@ clean_case = util.Clean(pickle_file="train_pickle/user_case_train_data.pickle", 
 info = clean_case.extract_pickle_data()
 sequence_1 = clean_case.load_data(info)
 
-print(info)
+print(sum(sequence_1.values()))
 print("10001" in info)
-
-for each in info.values():
-    if '1000' in each and '1006' in each:
-        print(each)
+count = 0
+for k,v in sequence_1.items():
+    if v > 3270:
+        count += 1
+        print(k,v)
+print(count)
+print(len(info))
+# for each in info.values():
+#     if '1000' in each and '1006' in each:
+#         print(each)
 # print(sequence_1)
 
 # fre_dict = clean_case.load_data(info)

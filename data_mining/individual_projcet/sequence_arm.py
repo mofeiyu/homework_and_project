@@ -6,13 +6,17 @@ import pickle
 import util
 
 class SeqArm:
-    def __init__(self):
+    def __init__(self, support_rate):
         self.util = util.Clean(pickle_file="train_pickle/user_case_train_data.pickle", pickle_type="case")
         self.data = self.util.extract_pickle_data()
         self.sequence_1 = self.util.load_data(self.data)
         self.sequence_phase_table = {1: self.sequence_1}
         self.maximal_sequences = []
-        # self.count
+        self.support_value = self.calculate_support_value(support_rate)
+
+    def calculate_support_value(self, support_rate):
+        pass
+        # TODO
 
     def sequence_phase(self, sequence):
         sequence = list(sequence)
@@ -21,7 +25,7 @@ class SeqArm:
             for i in range(len(sequence)):
                 for j in range(len(sequence)):
                     count_num = self.count_frequency((sequence[i], sequence[j]))
-                    if count_num != 0:
+                    if count_num != 0 and count_num >= self.support_value:
                         self.sequence_n[(sequence[i], sequence[j])] = count_num
             self.sequence_phase_table[2] = self.sequence_n
         else:
@@ -32,7 +36,7 @@ class SeqArm:
                         # print(list(sequence[i][:-1]),sequence[j][:-1],sequence[i][-1],sequence[j][-1])
                         use_judge = True
                         count_num = self.count_frequency(list(sequence[i]) + [sequence[j][-1]])
-                        if count_num != 0:
+                        if count_num != 0 and count_num >= self.support_value:
                             combine_tuple = tuple(list(sequence[i]) + [sequence[j][-1]])
                             self.sequence_n[combine_tuple] = count_num
                 if use_judge == False:
@@ -74,15 +78,15 @@ class SeqArm:
 
 def main():
     maximal_dict = {}
-    seq_arm_op = SeqArm()
+    seq_arm_op = SeqArm(0.1)
     # max_index, max_length = seq_arm_op.find_max_length(list(seq_arm_op.sequence_1.keys()))
-    sequence = list(seq_arm_op.sequence_1.keys())[:10]
+    sequence = list(seq_arm_op.sequence_1.keys())[0:10]
     while True:
         seq_arm_op.sequence_phase(sequence)
         sequence = seq_arm_op.sequence_n.keys()
         if not sequence:
             break
-    print(seq_arm_op.sequence_phase_table)
+    # print(seq_arm_op.sequence_phase_table)
 
     for each in seq_arm_op.maximal_sequences:
         maximal_dict[len(each)] = each
